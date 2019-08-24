@@ -31,17 +31,19 @@ The script was tested on Python 3.7.3.
 
 Put required details in `configFile.py` and run `priceTracker.py`.
 
-**botToken:** Token given by botFather when new bot is created.
-**chatId:** Get chatId of you and the bot by going the to [getUpdates endpoint](https://api.telegram.org/bot<botToken>/getUpdates)
-**threshold:** Minimum price value which will trigger the telegram notification.
+**botToken:** Token given by botFather when new bot is created.  
+**chatId:** Get chatId of you and the bot by going the to [getUpdates endpoint](https://api.telegram.org/bot<botToken>/getUpdates)  
+**threshold:** Minimum price value which will trigger the telegram notification.  
 
 ## Future-Work
 
+- [x] Use classes and object to support multiple products later.
 - [ ] Use Threads to track multiple items on watch.
 - [ ] Enable user to provide link directly from telegram app.
 - [ ] Introduce database to stop the links, so server restart or script crash won't affect the links.
 - [ ] Randomize User-Agent to avoid IP ban from Amazon.
 - [ ] Add cooldown timer once notification is sent.
+- [ ] Create a telegram menu to select the product and remove it.
 
 ## Known-Issues
 

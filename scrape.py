@@ -6,7 +6,6 @@ import time
 from datetime import datetime # logging #REVIEW 
 import bot
 import threading
-#from configFile import * #REVIEW 
 import logging
 import parseConfig
 
@@ -106,7 +105,14 @@ class ChangeAlert():
 
     def __init__(self, chatId, newThreshold):
         self.chatId = chatId
-        self.newThreshold = newThreshold
+        self.newThreshold = newThreshold.strip()
+
+    def priceTypeCheck(self):
+        print("Enter: priceTypeCheck")
+        if self.newThreshold.isdigit():
+            return True
+        else:
+            return False
 
     def changeAlert(self):
         """ Change alert value """

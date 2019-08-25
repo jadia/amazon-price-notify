@@ -5,7 +5,6 @@ from telegram.chataction import ChatAction # pure Telegram API (send_message met
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ChatAction, InlineQueryResultArticle, InputTextMessageContent, ReplyKeyboardMarkup
 import requests #3rd party module
 import scrape
-#from configFile import * #REVIEW 
 import time
 import re
 
@@ -55,8 +54,6 @@ class RespondToCommands():
         headers = {
         #    "User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36' }
             "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
-             
-        # FIXME Time out not working on /addhttps://amazon.in type links
         isValid, validURL = self.preprocessURL(addArgs)
         if isValid:
             response = requests.get(validURL, headers=headers, timeout=5)
@@ -81,14 +78,16 @@ class RespondToCommands():
     def setAlertValue(self, update, context):
         """ Set price threshold for the user """
         print("Enter: setAlertValue")
-        context.bot.send_chat_action(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
+        #context.bot.send_chat_action(chat_id=update.message.chat_id, action=telegram.ChatAction.TYPING)
         updateAlert = scrape.ChangeAlert(update.message.chat_id, ''.join(context.args))
-        if updateAlert.changeAlert():
-                print("Bot: After if chageAlert")
-                context.bot.send_message(chat_id=update.message.chat_id, text="Price updated to {}".format(''.join(context.args)))
+        if updateAlert.priceTypeCheck():
+            if updateAlert.changeAlert():
+                    print("Bot: After if chageAlert")
+                    context.bot.send_message(chat_id=update.message.chat_id, text="Price updated to {}".format(''.join(context.args)))
+            else:
+                context.bot.send_message(chat_id=update.message.chat_id, text="You must add a product first.")
         else:
-            context.bot.send_message(chat_id=update.message.chat_id, text="You must add a product first.")
-
+                context.bot.send_message(chat_id=update.message.chat_id, text="Invalid price. Ex:\n /alert 8000")
 
 
     def caps(self, update, context):

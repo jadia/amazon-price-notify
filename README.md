@@ -37,17 +37,17 @@ Put required details in `config.json` and run `main.py`.
 
 
 
-## Future-Work
+## To-do
 
 - [x] Use classes and object to support multiple products later.
 - [x] Use Threads to track multiple items on watch.
 - [x] Enable user to provide link directly from telegram app.
+- [x] Accept all kinds to URL
 - [ ] Type checking and Exception handeling.
 - [ ] Add cooldown timer once notification is sent.
 - [ ] Overwrite old product when new product is added
 - [ ] Randomize User-Agent to avoid IP ban from Amazon.
 - [ ] Add snooze command to stop notifications for that many hours.
-- [ ] Accept all kinds to URL
 - [ ] Introduce database to stop the links, so server restart or script crash won't affect the links.
 
 **Need help:**

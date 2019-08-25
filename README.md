@@ -55,7 +55,8 @@ sudo heroku login
 Goto heroku website and create a `new app`. Note down the name of application when you create it. It will be used in below commands.
 
 Clone this repository
-```
+
+```bash
 git clone https://github.com/th3nyx/amazon-price-notify.git && \
 cd amazon-price-notify && \
 heroku git:remote -a YOUR-HEROKU-APPLICATION-NAME
@@ -78,11 +79,18 @@ As of 2019-08-26: Heroku only allows 550hrs/month for free accounts without cred
 
 ![telegram bot screenshot](/docs/resources/telegram-ss.png)
 
-Search for your telegram bot on telegram.
+Search for your bot on telegram and start conversation.
 
-**/start:** Bot sends you an introduction
-**/add:** Add your product
-**/alert:** Create alert
+**/start:** Bot sends you an introduction  
+**/add:** Add your product  
+**/alert:** Create alert  
+
+## Demo
+
+Visit [amazon-price-tracker-bot.herokuapp.com](https://amazon-price-tracker-bot.herokuapp.com/) to spin up the heroku application if it's dead.  
+Search for `testbot13371` on Telegram and start the conversation.
+
+**Note:** *The test bot should work if Amazon.in haven't changed their HTML tags*
 
 ## To-do
 

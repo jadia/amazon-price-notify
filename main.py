@@ -10,11 +10,14 @@ __status__ = "Development"
 
 
 import time # sleep # epoch time 
-from configFile import * #REVIEW 
+#from configFile import * #REVIEW 
 import scrape
 import bot
+import parseConfig
 
 if __name__ == '__main__':
+    getToken = parseConfig.ParseJson()
+    botToken = getToken.getConfig()
     theBot = bot.RespondToCommands(botToken)
     theBot.initializeBot()
 

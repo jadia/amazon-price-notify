@@ -5,7 +5,7 @@ from telegram.chataction import ChatAction # pure Telegram API (send_message met
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ChatAction, InlineQueryResultArticle, InputTextMessageContent, ReplyKeyboardMarkup
 import requests #3rd party module
 import scrape
-from configFile import * #REVIEW 
+#from configFile import * #REVIEW 
 import time
 
 

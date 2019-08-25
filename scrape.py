@@ -1,4 +1,3 @@
-
 import requests #3rd party module
 from bs4 import BeautifulSoup # parsing the page
 from re import sub # substitute , in currency
@@ -7,8 +6,9 @@ import time
 from datetime import datetime # logging #REVIEW 
 import bot
 import threading
-from configFile import * #REVIEW 
+#from configFile import * #REVIEW 
 import logging
+import parseConfig
 
 # format = "%(asctime)s: %(message)s"
 # logging.basicConfig(format=format, level=INFO,
@@ -26,6 +26,10 @@ class ScrapeAmazon():
         print(self.productDetails.productURL)
         print(self.productDetails.threshold)
         print(self.productDetails.epoch)
+        # botToken used in getWebPage()
+        getToken = parseConfig.ParseJson()
+        self.botToken = getToken.getConfig()
+        print(self.botToken)
 
     def convertCurrency(self, price):
         print("Enter: convertCurrency")
@@ -70,7 +74,7 @@ class ScrapeAmazon():
         print(productPrice)
 
         if self.comparePrices(productPrice, Decimal(self.productDetails.threshold)):
-            notify = bot.TelegramNotification(botToken, self.productDetails.chatId)
+            notify = bot.TelegramNotification(self.botToken, self.productDetails.chatId)
             notify.sendNotification(productTitle, productPriceStr)
         else:
             print(now, "Price still higher.")
@@ -106,13 +110,13 @@ class ChangeAlert():
     def changeAlert(self):
         """ Change alert value """
         ## TODO  Check if user exists.
-        if chatId in PRODUCTLIST:
+        if self.chatId in PRODUCTLIST:
             print("Updating price")
             print("Current Price")
-            print(PRODUCTLIST.get(chatId).threshold)
-            PRODUCTLIST.get(chatId).threshold = self.newThreshold
+            print(PRODUCTLIST.get(self.chatId).threshold)
+            PRODUCTLIST.get(self.chatId).threshold = self.newThreshold
             print("New Price")
-            print(PRODUCTLIST.get(chatId).threshold)
+            print(PRODUCTLIST.get(self.chatId).threshold)
             print("Success to changeAlert")
             return True
         else:
@@ -131,7 +135,7 @@ class UpdateTrackingList():
         # create a thread for live tracking
 
         #FIXME  Do not allow multiple products to single user.
-        if chatId not in PRODUCTLIST:
+        if self.productDetails.chatId not in PRODUCTLIST:
             startScraping = ScrapeAmazon(self.productDetails)
             x = threading.Thread(target=startScraping.startTracking, name=self.productDetails.chatId)
             x.daemon=True

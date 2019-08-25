@@ -80,9 +80,9 @@ As of 2019-08-26: Heroku only allows 550hrs/month for free accounts without cred
 
 Search for your telegram bot on telegram.
 
-**/start:** Bot sends you an introduction
-**/add:** Add your product
-**/alert:** Create alert
+**/start:** Bot sends you an introduction  
+**/add:** Add your product  
+**/alert:** Create alert  
 
 ## To-do
 

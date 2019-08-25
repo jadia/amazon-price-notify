@@ -119,8 +119,20 @@ class RespondToCommands():
         # create "unknown" command handler
         unknown_handler = MessageHandler(Filters.text, self.unknown)
         dispatcher.add_handler(unknown_handler)
+
+
+        # Start the webhook
+        # Change amazon-price-tracker-bot with your own heroku app name
+        # Uncomment the below code to make it work with heroku.
+        # also use uptimerobot service to keep the container alive
+        # ***********************************
+        # import os
+        # PORT = os.environ.get('PORT')
+        # updater.start_webhook(listen="0.0.0.0", port=int(PORT), url_path=self.botToken)
+        # updater.bot.setWebhook("https://{}.herokuapp.com/{}".format("amazon-price-tracker-bot", self.botToken))
+        
+        
         # watch the requests
-        #NOTE Create thread of watch
         print("Starting: Updater Pool")
         updater.start_polling()
 

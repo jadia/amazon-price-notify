@@ -51,7 +51,8 @@ class ScrapeAmazon():
         # Without a proper User-Agent Amazon will block the request
         # TODO  Randomize the User-Agen to escape IP ban.
         headers = {
-        "User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36' }
+        #"User-Agent": 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36' }
+        "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36' }
         htmlPage = requests.get(self.productDetails.productURL, headers = headers)
         # Use beautifulSoup to parse the page
         soup1 = BeautifulSoup(htmlPage.content,'html.parser')

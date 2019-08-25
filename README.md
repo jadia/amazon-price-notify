@@ -27,24 +27,34 @@ sudo pip3 install -r requirements.txt
 
 The script was tested on Python 3.7.3.
 
-## Using the application
-
-Put required details in `configFile.py` and run `priceTracker.py`.
+Put required details in `config.json` and run `main.py`.
 
 **botToken:** Token given by botFather when new bot is created.  
-**chatId:** Get chatId of you and the bot by going the to [getUpdates endpoint](https://api.telegram.org/bot<botToken>/getUpdates)  
-**threshold:** Minimum price value which will trigger the telegram notification.  
+
+## Telegram application
+
+
+
+
 
 ## Future-Work
 
 - [x] Use classes and object to support multiple products later.
-- [ ] Use Threads to track multiple items on watch.
-- [ ] Enable user to provide link directly from telegram app.
-- [ ] Introduce database to stop the links, so server restart or script crash won't affect the links.
-- [ ] Randomize User-Agent to avoid IP ban from Amazon.
+- [x] Use Threads to track multiple items on watch.
+- [x] Enable user to provide link directly from telegram app.
+- [ ] Type checking and Exception handeling.
 - [ ] Add cooldown timer once notification is sent.
+- [ ] Overwrite old product when new product is added
+- [ ] Randomize User-Agent to avoid IP ban from Amazon.
+- [ ] Add snooze command to stop notifications for that many hours.
+- [ ] Accept all kinds to URL
+- [ ] Introduce database to stop the links, so server restart or script crash won't affect the links.
+
+**Need help:**
+
 - [ ] Create a telegram menu to select the product and remove it.
 
 ## Known-Issues
 
 1. If price of product is below threshold for more than 15 min. There will be multiple notifications.
+2. ~~Incorrect URL hangs the application.~~ (FIXED)

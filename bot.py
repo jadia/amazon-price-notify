@@ -44,8 +44,8 @@ class RespondToCommands():
 
 
     def addProduct(self, update, context):
-        print("Enter: addProduct")
         """ Add product to tracking for the user """
+        print("Enter: addProduct")
         # TODO Add typing decoration
         context.bot.send_message(chat_id=update.message.chat_id, text="Adding product to tracking... Please wait")
         # addArgs arguments passed with /add command. Expected to be amazon url
@@ -67,7 +67,7 @@ class RespondToCommands():
                     print("Bot: After if addToTrackingList")
                     context.bot.send_message(chat_id=update.message.chat_id, text="Great! Product is successfully added. Now set price alerts:\n\n /alert <price> ")
                 else:
-                    context.bot.send_message(chat_id=update.message.chat_id, text="Only one product per user allowed.")
+                    context.bot.send_message(chat_id=update.message.chat_id, text="Old product is replaced with the new one.")
             else:
                 context.bot.send_message(chat_id=update.message.chat_id, text="Product URL unreachable. Try again later.")
         else:
@@ -120,6 +120,7 @@ class RespondToCommands():
         unknown_handler = MessageHandler(Filters.text, self.unknown)
         dispatcher.add_handler(unknown_handler)
 
+# FIXME  Create an easy way to switch heroku deployment on and off
 
         # Start the webhook
         # Change amazon-price-tracker-bot with your own heroku app name

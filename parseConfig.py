@@ -1,6 +1,7 @@
 import json
 
 class ParseJson():
+    """ Parse config data from config.json file """
     def __init__(self, jsonFile="config.json"):
         self.jsonFile = jsonFile
 

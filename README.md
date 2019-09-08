@@ -15,6 +15,8 @@ Requests and Beautifulsoup modules are used to scrape the page and get the produ
 
 Generate a price drop alert to user via Telegram API using `python-telegram-bot` module.
 
+Once price drop notification is sent to the user, to avoid bothering the user, it snoozes notifications for next 3hrs.
+
 ## Installation
 
 ### Install on Local machine
@@ -100,13 +102,14 @@ Search for `testbot13371` on Telegram and start the conversation.
 - [x] Accept all kinds to URL
 - [x] Type checking of input data.
 - [x] Heroku integration.
-- [ ] Overwrite old product when new product is added
-- [ ] Randomize User-Agent to avoid IP ban from Amazon.
-- [ ] Add cooldown timer once notification is sent.
+- [x] Overwrite old product when new product is added
+- [x] Add cooldown timer once notification is sent. (6hrs timer)
 - [ ] Add snooze command to stop notifications for that many hours.
+- [ ] Randomize User-Agent to avoid IP ban from Amazon.
 - [ ] Exception handeling.
+- [ ] Move timers value to config file
 - [ ] Introduce database to stop the links, so server restart or script crash won't affect the links.
-
+- [ ] Deploy on AWS
 **Future Work:**
 
 - [ ] Create a telegram menu and inlineKeyboard to replace commands.

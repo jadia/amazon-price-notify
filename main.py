@@ -10,12 +10,12 @@ __status__ = "Development"
 
 
 import time # sleep # epoch time 
-#from configFile import * #REVIEW 
-import scrape
-import bot
-import parseConfig
+import scrape # scrape amazon page
+import bot # poweron telegram bot + heroku support
+import parseConfig # read config.json file
 
 if __name__ == '__main__':
+    """ Get token from config.json and initialize the bot """
     getToken = parseConfig.ParseJson()
     botToken = getToken.getConfig()
     theBot = bot.RespondToCommands(botToken)

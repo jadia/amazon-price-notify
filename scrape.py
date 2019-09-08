@@ -1,11 +1,11 @@
-import requests #3rd party module
+import requests # request product page from amazon.in
 from bs4 import BeautifulSoup # parsing the page
 from re import sub # substitute , in currency
 from decimal import Decimal # better currency representation
 import time
 from datetime import datetime # logging #REVIEW 
-import bot
-import threading
+import bot 
+import threading 
 import logging
 import parseConfig
 
@@ -13,7 +13,9 @@ import parseConfig
 # logging.basicConfig(format=format, level=INFO,
 #                     datefmt="%H:%M:%S")
 
+# Global var to track user and it's product data
 PRODUCTLIST = dict()
+killThread = ""
 
 class ScrapeAmazon():
     """ Scrape amazon product page and decide on sending telegram notification """
@@ -31,22 +33,25 @@ class ScrapeAmazon():
         print(self.botToken)
 
     def convertCurrency(self, price):
-        print("Enter: convertCurrency")
         """ Convert extracted price to decimal type value """
+        print("Enter: convertCurrency")
         # remove whatever is not a digit or . and return Decimal type value 
         return Decimal(sub(r'[^\d.]','', price))
 
     def comparePrices(self, currentPrice, thresholdPrice):
-        print("Enter: comparePrices")
         """ Compare current price with the threashold price set by user """
+        print("Enter: comparePrices")
         if currentPrice <= thresholdPrice:
             return True
         else:
             return False
 
     def getWebPage(self):
-        print("Enter: getWebPage")
         """ Get HTML page using requests and Beautifulsoup """
+        # Cool down time (sec) on price drop notification
+        coolDownTime = 10800 # 3hrs
+
+        print("Enter: getWebPage")
         # Without a proper User-Agent Amazon will block the request
         # TODO  Randomize the User-Agen to escape IP ban.
         headers = {
@@ -76,15 +81,29 @@ class ScrapeAmazon():
         if self.comparePrices(productPrice, Decimal(self.productDetails.threshold)):
             notify = bot.TelegramNotification(self.botToken, self.productDetails.chatId)
             notify.sendNotification(productTitle, productPriceStr)
+            print("Stop notification for 6 hours")
+            self.productDetails.epoch = self.productDetails.epoch + coolDownTime
         else:
             print(now, "Price still higher.")
 
     def startTracking(self):
+        # Scrape product page after every scrapeInterval time
+        scrapeInterval = 900 # 15min
         print("Enter: startTracking")
+        global killThread
         ## TODO  Catch except and send notification about no more tracking
         while True:
-            self.getWebPage()
-            time.sleep(30) # 15 minutes
+            if killThread == self.productDetails.chatId:
+                print("Killing Thread due to new product.")
+                killThread = ""
+                print(f"Done resetting killThread var to {killThread}")
+                exit()
+            else:
+                if self.productDetails.epoch < time.time():
+                    print(f"{self.productDetails.epoch} < {time.time()}")
+                    self.getWebPage()
+                    self.productDetails.epoch = self.productDetails.epoch + scrapeInterval
+
 
 
 class ProductInfo():
@@ -140,17 +159,23 @@ class UpdateTrackingList():
         print("Enter: Add to tracking list")
         # create a new object for the product and append it to the list
         # create a thread for live tracking
-
+        global killThread
+        replaceProduct = False
         #FIXME  Do not allow multiple products to single user.
-        if self.productDetails.chatId not in PRODUCTLIST:
-            startScraping = ScrapeAmazon(self.productDetails)
-            x = threading.Thread(target=startScraping.startTracking, name=self.productDetails.chatId)
-            x.daemon=True
-            PRODUCTLIST[self.productDetails.chatId] = self.productDetails
-            print("Before: Thread starts ")
-            x.start()
-            return True
-        else:
-            print("User already exists")
+        # Check if user already has the product
+        if self.productDetails.chatId in PRODUCTLIST:
+            # kill the old thread before starting the new one
+            killThread = self.productDetails.chatId
+            replaceProduct = True
+            time.sleep(2) # let the old thread die
+        startScraping = ScrapeAmazon(self.productDetails)
+        x = threading.Thread(target=startScraping.startTracking, name=self.productDetails.chatId)
+        x.daemon=True
+        PRODUCTLIST[self.productDetails.chatId] = self.productDetails
+        print("Before: Thread starts ")
+        x.start()
+        if replaceProduct:
+            # False will say "Notify user that old product link is replaced"
+            # This has nothing to do with True or False
             return False
-
+        return True
